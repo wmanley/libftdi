@@ -1252,6 +1252,9 @@ int ftdi_set_baudrate(struct ftdi_context *ftdi, int baudrate)
     if (actual_baudrate <= 0)
         ftdi_error_return (-1, "Silly baudrate <= 0.");
 
+    fprintf(stderr, "Setting baudrate to %i (requested %i)\n", baudrate,
+            actual_baudrate);
+
     // Check within tolerance (about 5%)
     if ((actual_baudrate * 2 < baudrate /* Catch overflows */ )
             || ((actual_baudrate < baudrate)
