@@ -1156,7 +1156,7 @@ static int ftdi_to_clkbits(int baudrate, unsigned int clk, int clk_div, unsigned
         *encoded_divisor = (best_divisor >> 3) | (frac_code[best_divisor & 0x7] << 14);
     }
     fprintf(stderr, "Selected divisor %i / %i / (%i + %i/8) = %iHz\n",
-        clk, clk_div, best_divisor >> 4, (best_divisor >> 1) % 7, best_baud);
+        clk, clk_div, best_divisor >> 3, (best_divisor >> 1) % 7, best_baud);
     return best_baud;
 }
 /**
