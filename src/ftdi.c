@@ -1155,6 +1155,8 @@ static int ftdi_to_clkbits(int baudrate, unsigned int clk, int clk_div, unsigned
             best_baud = best_baud /2;
         *encoded_divisor = (best_divisor >> 3) | (frac_code[best_divisor & 0x7] << 14);
     }
+    fprintf(stderr, "Selected divisor %i / %i / (%i + %i/8) = %iHz\n",
+        clk, clk_div, best_divisor >> 4, (best_divisor >> 1) % 7, best_baud);
     return best_baud;
 }
 /**
@@ -1252,8 +1254,8 @@ int ftdi_set_baudrate(struct ftdi_context *ftdi, int baudrate)
     if (actual_baudrate <= 0)
         ftdi_error_return (-1, "Silly baudrate <= 0.");
 
-    fprintf(stderr, "Setting baudrate to 3MHz / (%i + %i/8) = %iHz (requested %i)\n",
-            value, index, actual_baudrate, baudrate);
+    fprintf(stderr, "Setting baudrate to %iHz (requested %iHz)\n",
+            actual_baudrate, baudrate);
 
     // Check within tolerance (about 5%)
     if ((actual_baudrate * 2 < baudrate /* Catch overflows */ )
